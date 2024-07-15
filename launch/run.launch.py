@@ -7,10 +7,12 @@ import os
 
 def generate_launch_description():
     # Specify the path to the mocap.launch.py file
+    # mocap_launch_file = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource([get_package_share_directory('mocap_optitrack'), '/launch/mocap.launch.py'])
+    # )
     mocap_launch_file = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([get_package_share_directory('mocap_optitrack'), '/launch/mocap.launch.py'])
+        PythonLaunchDescriptionSource([get_package_share_directory('optitrack_listener'), '/optitrack_listener.launch.py'])
     )
-
     # Get the config path
     config = os.path.join(
         get_package_share_directory('mocap_px4_bridge'),
