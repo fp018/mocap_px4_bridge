@@ -1,8 +1,8 @@
 # Mocap-PX4 Bridge
 
-<p align="center">
+<!-- <p align="center">
   <img src="./docs/px4-mocap-ros2.png" alt="block diagram"/>
-</p>
+</p> -->
 
 This ROS 2 Package takes the Position and Orientation measurements from OptiTrack system and send them to PX4 through the [uXRCE-DDS](https://docs.px4.io/main/en/middleware/uxrce_dds.html) bridge between ROS 2 and PX4.
 
@@ -17,11 +17,11 @@ Please refer to [this document](./docs/PX4+Mocap+ROS2-Guide/Indoor%20Localizatio
 ## Pre conditions
 
 > [!WARNING]  
-> When creating the rigid body allign the World frame X-axis with the forward direction of the drone
+> Check that the OptiTrack 'Up axis' is the Z-axis, in Motive the default is Y-axis
 
 This package assumes that the OptiTrack system is broadcasting the position and orientation of the robot with the following reference frame convention:
 
-* World frame: X axis Forward, Z-axis Right, Y-axis Up.
+* World frame: X axis Forward, Y-axis Left, Z-axis Up (Again: Check that the OptiTrack 'Up axis' is the Z-axis, in Motive the default is Y-axis).
 * Body frame: X axis Forward, Y-axis Left, Z-axis Up.
 
 ## Getting started
@@ -44,7 +44,7 @@ ros2 launch mocap_px4_bridge run.launch.py
 
 By default:
 
-1. This package will read the Optitrack measurements from the topic `/optitrack/rigid_body` 
+1. This package will read the Optitrack measurements from the topic `/Robot_1/pose` 
 2. Publish the measurements to the topic `/fmu/in/vehicle_visual_odometry`
 
 To change the names of these topic, you need to edit the file `config/params.yaml`.
@@ -61,19 +61,19 @@ Assuming that:
 Here is how the frame conversion is carried out:
 ```python
 P_px4.x =   P_optitrack.x​
-P_px4.y =   P_optitrack.z
-P_px4.z = - P_optitrack.y​
+P_px4.y = - P_optitrack.y​
+P_px4.z = - P_optitrack.z​
 
 q_px4.w =   q_px4.w​
 q_px4.x =   q_px4.x ​
-q_px4.y =   q_px4.z
-q_px4.z = - q_px4.y​
+q_px4.y = - q_px4.y​
+q_px4.z = - q_px4.z​
 ```
 
 ## Acknowledgment
 
-This training material was prepared and delivered as part of the Horizon Europe CSA project: AeroSTREAM (Grant Agreement number: 101071270).
+<!-- This training material was prepared and delivered as part of the Horizon Europe CSA project: AeroSTREAM (Grant Agreement number: 101071270).
 
 <p align="center">
   <img src="./docs/PX4+Mocap+ROS2-Guide/attachments/aerostream-logo.png" alt="aerostream-logo"/>
-</p>
+</p> -->
