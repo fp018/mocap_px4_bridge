@@ -17,11 +17,11 @@ Please refer to [this document](./docs/PX4+Mocap+ROS2-Guide/Indoor%20Localizatio
 ## Pre conditions
 
 > [!WARNING]  
-> Check that the OptiTrack 'Up axis' is the Z-axis, in Motive the default is Y-axis
+> When creating the rigid body allign the World frame X-axis with the forward direction of the drone
 
 This package assumes that the OptiTrack system is broadcasting the position and orientation of the robot with the following reference frame convention:
 
-* World frame: X axis Forward, Y-axis Left, Z-axis Up (Again: Check that the OptiTrack 'Up axis' is the Z-axis, in Motive the default is Y-axis).
+* World frame: X axis Forward, Z-axis Right, Y-axis Up.
 * Body frame: X axis Forward, Y-axis Left, Z-axis Up.
 
 ## Getting started
@@ -44,7 +44,7 @@ ros2 launch mocap_px4_bridge run.launch.py
 
 By default:
 
-1. This package will read the Optitrack measurements from the topic `/Robot_1/pose` 
+1. This package will read the Optitrack measurements from the topic `/optitrack/rigid_body` 
 2. Publish the measurements to the topic `/fmu/in/vehicle_visual_odometry`
 
 To change the names of these topic, you need to edit the file `config/params.yaml`.
@@ -61,13 +61,13 @@ Assuming that:
 Here is how the frame conversion is carried out:
 ```python
 P_px4.x =   P_optitrack.x​
-P_px4.y = - P_optitrack.y​
-P_px4.z = - P_optitrack.z​
+P_px4.y =   P_optitrack.z
+P_px4.z = - P_optitrack.y​
 
 q_px4.w =   q_px4.w​
 q_px4.x =   q_px4.x ​
-q_px4.y = - q_px4.y​
-q_px4.z = - q_px4.z​
+q_px4.y =   q_px4.z
+q_px4.z = - q_px4.y​
 ```
 
 ## Acknowledgment
